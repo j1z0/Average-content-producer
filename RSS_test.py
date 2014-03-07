@@ -1,6 +1,7 @@
 import unittest
 from RSSFeed import RSSobject, ViceRSS
 from bs4.element import NavigableString
+from bs4 import BeautifulSoup
 
 class RSSTester(unittest.TestCase):
 
@@ -16,7 +17,11 @@ class RSSTester(unittest.TestCase):
 class RSSViceTester(unittest.TestCase):
     
     def setUp(self):
-        self.vice = ViceRSS('http://www.vice.com/rss')
+        self.vice = ViceRSS(None)
+        with open("vice.rss", "r") as f:
+            self.vice.raw = f.read()
+            self.vice.soup = BeautifulSoup(self.vice.raw)
+
 
     def test_vice_article_list(self):
         self.vice.article_split()
