@@ -4,9 +4,10 @@ from collections import OrderedDict
 
 class RSSobject(object):    # RSS Base object
     def __init__(self, url):
-        t = urllib2.urlopen(url)
-        self.raw = t.read()
-        self.soup = BeautifulSoup(self.raw)
+        if url:
+            t = urllib2.urlopen(url)
+            self.raw = t.read()
+            self.soup = BeautifulSoup(self.raw)
 
     def average_words(self):
         if self.articles:
@@ -18,9 +19,9 @@ class RSSobject(object):    # RSS Base object
                         self.averages[t] += 1
                     else:
                         self.averages[t] = 1
-            self.averages = OrderedDict(sorted(self.averages.items(), key=lambda t: t[1]))
+            self .averages = OrderedDict(sorted(self.averages.items(), key=lambda t: t[1]))
 
-class ViceRSS(RSSobject):    # Vice Class tailored for site structure
+class ViceRSS( RSSobject):    # Vice Class tailored for site structure
     def article_split(self):    # Split feed into articles
         items = self.soup.find_all('item')    # <item> contents into list
         self.articles = []   # Initiate dump for data
